@@ -30,9 +30,13 @@ export default {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    '@/plugins/element-ui'
-  ],
+ plugins: [
+  '@/plugins/element-ui',
+  // axios的拦截插件
+  '@/plugins/axios',
+  //  本地存储的插件
+  { src: '@/plugins/axios.js', ssr: false }
+],
   /*
   ** Nuxt.js dev-modules
   */

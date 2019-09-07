@@ -13,8 +13,25 @@
         </el-row>
       </div>
 
-      <div class="login">
+      <div class="login" v-if="!$store.state.user.userInfo.token">
         <a href="/user/login">登录/注册</a>
+      </div>
+
+      <div v-else>
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <!-- 头像,昵称 -->
+            <img
+              :src="` ${$axios.defaults.baseURL}${$store.state.user.userInfo.user.defaultAvatar} `"
+            />
+            <span>{{$store.state.user.userInfo.user.nickname}}</span>
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </el-row>
   </div>
@@ -24,6 +41,15 @@
 export default {
   data() {
     return {};
+  },
+  mounted() {
+    console.log(this.$store);
+  },
+  methods:{
+    logout(){
+      this.$store.commit("user/clearUserInfo")
+      this.$message.success("退出登录")
+    }
   }
 };
 </script>
@@ -51,12 +77,12 @@ export default {
       border-bottom: 5px solid #409eff;
     }
   }
-  .nuxt-link-exact-active{
-      background: #409eff;
+  .nuxt-link-exact-active {
+    background: #409eff;
+    color: #fff;
+    &:hover {
       color: #fff;
-      &:hover{
-          color: #fff;
-      }
+    }
   }
 }
 .img {
@@ -66,4 +92,15 @@ export default {
     height: 42px;
   }
 }
+ .el-dropdown-link img{
+        width: 36px;
+        height:36px;
+        border-radius: 50%;
+        vertical-align: middle;
+        box-sizing: border-box;
+        border:2px #fff solid;
+        &:hover{
+            border:2px #409eff solid;
+        }
+    }
 </style>
